@@ -1,10 +1,29 @@
-.search-container {
-    max-width: 600px;
-    margin: 40px auto; /* Increased margin for better spacing from top */
-    padding: 20px;
+.right-container {
+    width: 600px;
+    margin: 20px auto; /* Increased margin for better spacing from top */
+    height: 580px;
+    padding: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Updated shadow for subtlety */
     border-radius: 8px;
     background-color: #fff; /* Set a background color */
+    display: flex;
+    flex-direction: column;
+}
+
+.search-container {
+    width: 85%;
+    margin: 2px auto;
+    height: 40%;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Updated shadow for subtlety */
+    border-radius: 8px;
+    background-color: lightblue; /* Set a background color */
+    
+}
+
+
+.search {
+    display: flex;
 }
 
 .search-input {
@@ -34,10 +53,25 @@
     background-color: #0056cc; /* Darken button color on hover */
 }
 
+.searched-players-container {
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 75%;
+    margin: 10px auto;
+}
+
+.name-button {
+    display: flex;
+    flex-direction: row;
+    margin: 5px auto;
+}
+
 .player-card {
     margin: 10px 0;
     padding: 15px; /* Increased padding for better spacing */
-    background-color: #f9f9f9; /* Light background for the card */
+    background-color: rgb(216, 238, 245); /* Light background for the card */
     border: 1px solid #ddd; /* Subtle border */
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Soft shadow for depth */
@@ -50,6 +84,7 @@
 
 .player-card button {
     margin-left: 10px;
+    margin-right: 10px;
     padding: 5px 10px;
     background-color: #28a745; /* Bootstrap success color */
     color: white;
@@ -64,11 +99,18 @@
 }
 
 .player-details {
-    margin-top: 10px;
+    margin-top: auto;
+    margin-right: 2px;
     background-color: #fff; /* Contrast background for details */
-    padding: 10px;
+    padding: 5px;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Soft shadow for depth */
+    display: flex;
+}
+
+.player-stats {
+    background-color: white;
+    margin-right: auto;
 }
 
 .loading {
@@ -77,18 +119,44 @@
     color: #007bff; /* Bootstrap primary color for loading text */
 }
 
-.selected-players-container {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #f4f4f4; /* Light background for contrast */
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.selected-player-container {
+    width: 85%;
+    margin: 2px auto;
+    padding: 20px;
+    height: 45%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Updated shadow for subtlety */
+    border-radius: 8px;
+    background-color: darkblue; /* Set a background color */
+    display: flex;
+    
+    flex-direction: column;
+}
+
+.selected-player-grid {
+    width: 100%;
+    height: 80%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 5px;
 }
 
 .selected-player-card {
-    padding: 10px;
-    margin: 10px 0;
+    padding: 5px;
+
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 4px;
+    width: 47%;
+    height: 80%;
+}
+
+.selected-player-card p {
+    font-size: x-small;
+}
+
+.title {
+    color: white;
+    margin: 8px auto;
 }
