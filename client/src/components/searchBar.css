@@ -1,47 +1,94 @@
 .search-container {
     max-width: 600px;
-    margin: auto;
+    margin: 40px auto; /* Increased margin for better spacing from top */
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Updated shadow for subtlety */
     border-radius: 8px;
+    background-color: #fff; /* Set a background color */
 }
 
 .search-input {
-    width: calc(100% - 110px);
-    padding: 10px;
+    width: calc(100% - 120px);
+    padding: 10px 15px; /* Increased padding for better touch area */
     margin-right: 10px;
     font-size: 16px;
-    border: 1px solid #ddd;
+    border: 2px solid #eee; /* Subtle border */
     border-radius: 4px;
+    display: inline-block;
 }
 
 .search-button {
     width: 100px;
-    padding: 10px;
-    background-color: #0056b3;
+    padding: 10px 15px; /* Increased padding for better touch area */
+    background-color: #007bff; /* Bootstrap primary color */
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+    display: inline-block;
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
 }
 
 .search-button:hover {
-    background-color: #003d82;
+    background-color: #0056cc; /* Darken button color on hover */
 }
 
 .player-card {
     margin: 10px 0;
-    padding: 10px;
-    border: 1px solid #ddd;
+    padding: 15px; /* Increased padding for better spacing */
+    background-color: #f9f9f9; /* Light background for the card */
+    border: 1px solid #ddd; /* Subtle border */
     border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Soft shadow for depth */
 }
 
 .player-card p {
     margin: 5px 0;
+    font-size: 16px; /* Slightly larger font for readability */
+}
+
+.player-card button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: #28a745; /* Bootstrap success color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.player-card button:hover {
+    background-color: #218838; /* Darken button color on hover */
+}
+
+.player-details {
+    margin-top: 10px;
+    background-color: #fff; /* Contrast background for details */
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Soft shadow for depth */
 }
 
 .loading {
     text-align: center;
     font-style: italic;
+    color: #007bff; /* Bootstrap primary color for loading text */
+}
+
+.selected-players-container {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f4f4f4; /* Light background for contrast */
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.selected-player-card {
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
