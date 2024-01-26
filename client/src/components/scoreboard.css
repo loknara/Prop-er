@@ -1,0 +1,117 @@
+
+.scoreboard-container {
+    font-family: 'Roboto', sans-serif;
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .home_scoreboard {
+    font-size: 36px;
+    margin-bottom: 30px;
+    color: #FFC107;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  
+  .scoreboard {
+    /* display: flex; */
+    align-items: center;
+    background-color: #1D1E22;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .scoreboard:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  }
+  
+  .core {
+    text-align: left;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #FFC107;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0;
+  }
+  
+  .game-status {
+    font-size: 16px;
+    color: #C4C4C4;
+    margin-bottom: 10px;
+  }
+  
+  .team-name {
+    font-size: 20px;
+    font-weight: 500;
+    color: #FFF;
+  }
+  
+  .home {
+    color: #FFC107;
+    margin-right: 10px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .away {
+    color: #FFF;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .score {
+    font-size: 28px;
+    font-weight: bold;
+    color: #FFF;
+    margin: 0;
+  }
+  
+  .score-separator {
+    font-size: 22px;
+    color: #FFC107;
+    margin: 0 10px;
+  }
+  
+  .text_aligner{
+    display: flex;
+    justify-content: center;
+  } 
+  
+  @media (max-width: 768px) {
+    .scoreboard-container {
+      width: 100%;
+      padding: 0 10px;
+    }
+    
+    .scoreboard {
+      flex-direction: column;
+      padding: 15px;
+    }
+    
+    .scoreboard:hover {
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .core {
+      margin-top: 10px;
+    }
+    
+    .home {
+      margin-right: 10px;
+    }
+    
+    .score-separator {
+      display: none;
+    }
+  }
+  

@@ -106,4 +106,8 @@ def playerScore():
         return make_response(jsonify({"message": "Player not playing or information not available yet"}), 400)
 
 
-            
+@app.route('/scoreboard', methods = ['GET'])
+def scoreboardFunc():
+    games = scoreboard.ScoreBoard()
+    data2 = games.get_dict()
+    return jsonify(data2)
