@@ -90,8 +90,8 @@ const SearchComponent = () => {
                     </div>
                   ) : (
                     <div className="player-stats">
-                      <p>
-                        <strong>Rebounds Total:</strong>{" "}
+                      <p> Player has been added!
+                        {/* <strong>Rebounds Total:</strong>{" "}
                         {playerDetails[player.id].stat.reboundsTotal}
                       </p>
                       <p>
@@ -112,7 +112,7 @@ const SearchComponent = () => {
                       </p>
                       <p>
                         <strong>Game ID:</strong>{" "}
-                        {playerDetails[player.id].gameId}
+                        {playerDetails[player.id].gameId} */}
                       </p>
                     </div>
                   )}
