@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
+import json
 from nba_api.stats.static import players
 from nba_api.live.nba.endpoints import scoreboard
 from nba_api.live.nba.endpoints import boxscore
@@ -65,16 +66,11 @@ def playerScore():
                     tempARR.insert(0,game['gameId'])
                     tempARR.insert(1,False)
                     return tempARR
-
-
-            # return jsonify("Player not playing today")
-
-        # Example usage:
-        
+                
         load_todays_games = game.get_dict()
         load_game_id = find_teams_in_games(load_todays_games, teamId)
 
-        def find_player_in_game(data, playerId, flag): # flag is still hard coded
+        def find_player_in_game(data, playerId, flag):
             if flag:
                 for players in data['homeTeam']['players']:
                     personId = players['personId']
@@ -88,24 +84,22 @@ def playerScore():
                         test = players['statistics']
                         return test
 
-        #TODO:
-        #error here, boxscore cant load if we are looking for a game before tipoff because
-        #API does not know who is playing or not yet becuase of injuries
-        #one possible fix, use a try catch, on error tell frontend not playing yet
-
-        # ... existing backend code ...
-
     try:
-        print("here")
+        # print("here")
         load_boxscore = boxscore.BoxScore(str(load_game_id[0]))
-        # load_boxscore = boxscore.BoxScore('0022000196')
         load_team = load_boxscore.game.get_dict()
-        print("here2")
+        # print("here2")
         player_stats = find_player_in_game(load_team, search_query, load_game_id[1])
-        print("here3")
-        # player_stats = find_player_in_game(load_team, 203935, True)
-        print(player_stats)
-        return jsonify(player_stats)  # Return the player statistics to the frontend
+        tData = {
+            'stat' : player_stats,
+            'gameId' : load_game_id[0]
+        }
+        print(tData)
+        # json_str = json.dumps(tData)
+        # print(json_str)
+        # print("here3")
+        # print(player_stats)
+        return jsonify(tData)  # Return the player statistics to the frontend
     except:
         print("Player not playing or information not available yet")
         # return jsonify({"message": "Player not playing or information not available yet"})  # Return a message to the frontend

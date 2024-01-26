@@ -76,3 +76,19 @@
     font-style: italic;
     color: #007bff; /* Bootstrap primary color for loading text */
 }
+
+.selected-players-container {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f4f4f4; /* Light background for contrast */
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.selected-player-card {
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
