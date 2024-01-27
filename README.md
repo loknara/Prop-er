@@ -1,5 +1,4 @@
 # Prop-er
-
 # to run the application
 
 Frontend:
