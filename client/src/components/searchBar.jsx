@@ -5,6 +5,7 @@ import "./searchBar.css"; // Import the stylesheet
 const SearchComponent = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [players, setPlayers] = useState([]);
+  const [updatedPlayers, setUpdatedPlayers] = useState([]);
   const [playerDetails, setPlayerDetails] = useState({});
   const [selectedPlayers, setSelectedPlayers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -51,6 +52,34 @@ const SearchComponent = () => {
     }
     setLoading(false);
   };
+
+  const getUpdatedPlayerData = async (playerId, gameId,homeaway) => {
+    setLoading(true);
+    try {
+      const response = await axios.post("http://127.0.0.1:5000/updatePlayers", {
+        player_id: playerId,
+        game_id: gameId,
+        home_id: homeaway
+      });
+
+      setPlayerDetails({ ...playerDetails, [playerId]: response.data }); // Store player details in state
+      
+      // Set the updated player data
+      const updatedPlayerData = response.data;
+      
+      // Update the selectedPlayers state with the updated data
+      setSelectedPlayers(selectedPlayers.map(player => {
+        if (player.id === playerId) {
+          return { ...player, details: updatedPlayerData };
+        }
+        return player;
+      }));
+    } catch (error) {
+      console.error("Error occurred:", error);
+    }
+    setLoading(false);
+  }
+  
 
   return (
     <div className="right-container">
@@ -130,11 +159,7 @@ const SearchComponent = () => {
               <p>
                 <strong>Name:</strong> {player.full_name}
               </p>
-              {/* ... display other details from player.details ... */}
-              <p>
-                <strong>Rebounds:</strong>{" "}
-                {player.details.stat.reboundsTotal}
-              </p>
+              <p><strong>Rebounds:</strong> {player.details?.stat?.reboundsTotal || '0'}</p>
               <p>
                 <strong>Steals:</strong> {player.details.stat.steals}
               </p>
@@ -147,9 +172,15 @@ const SearchComponent = () => {
               <p>
                 <strong>Blocks:</strong> {player.details.stat.blocks}
               </p>
-              <p>
+              {/* <p>
                 <strong>Game ID:</strong> {player.details.gameId}
               </p>
+              <p>
+                <strong>Home ID:</strong> {player.details.homeaway}
+              </p> */}
+              <div className="updat-button">
+              <button onClick={() => getUpdatedPlayerData(player.id, player.details.gameId, player.details.homeaway)}>Update Player Data</button>
+              </div>
             </div>
           ))}
         </div>
