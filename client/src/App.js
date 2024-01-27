@@ -6,10 +6,10 @@ import './App.css'
 const App = () => {
     return (
         <div className='tester'>
-            <div>
+            <div className='left'>
             <Scoreboard/>
             </div>
-            <div>
+            <div className='right'>
             <SearchBox />
             </div>
         </div>
