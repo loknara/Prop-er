@@ -11,9 +11,11 @@ function Scoreboard() {
 
 
   useEffect(() => {
+    console.log("Hi")
     axios.get('http://127.0.0.1:5000/scoreboard')
     .then((response) => {
       setScoreboardData(response.data);
+      console.log("Hola")
     })
     .catch(error => {
       console.log(error);
