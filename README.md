@@ -1,5 +1,4 @@
 # Prop-er
-
 # to run the application
 
 Frontend:
@@ -11,6 +10,7 @@ Frontend:
 Backend:
 
 1. cd server
-2. create an virtual environment : python -m venv env
+2. python -m venv env
 3. source env/bin/activate
 4. pip install requirements.txt
+5. flask run
