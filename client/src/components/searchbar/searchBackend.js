@@ -53,6 +53,35 @@ export const getPlayerDetails = async (
   setLoading(false);
 };
 
+export const fetchPlayerData = async (playerId, gameId, homeaway) => {
+  try {
+    const response = await axios.post("http://127.0.0.1:5000/updatePlayers", {
+      player_id: playerId,
+      game_id: gameId,
+      home_id: homeaway,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error occurred:", error);
+  }
+};
+
+export const updatePlayerData = (playerId, data, setPlayerDetails, setSelectedPlayers) => {
+  setPlayerDetails((prevDetails) => ({
+    ...prevDetails,
+    [playerId]: data
+  }));
+
+  setSelectedPlayers((prevSelected) =>
+    prevSelected.map((player) => {
+      if (player.id === playerId) {
+        return { ...player, details: data };
+      }
+      return player;
+    })
+  );
+};
+
 export const getUpdatedPlayerData = async (
   playerId,
   gameId,
@@ -63,29 +92,9 @@ export const getUpdatedPlayerData = async (
   setLoading
 ) => {
   setLoading(true);
-  try {
-    const response = await axios.post("http://127.0.0.1:5000/updatePlayers", {
-      player_id: playerId,
-      game_id: gameId,
-      home_id: homeaway,
-    });
-
-    setPlayerDetails((prevDetails) => ({
-      ...prevDetails,
-      [playerId]: response.data,
-    }));
-
-    const updatedPlayerData = response.data;
-    setSelectedPlayers((prevSelected) =>
-      prevSelected.map((player) => {
-        if (player.id === playerId) {
-          return { ...player, details: updatedPlayerData };
-        }
-        return player;
-      })
-    );
-  } catch (error) {
-    console.error("Error occurred:", error);
+  const data = await fetchPlayerData(playerId, gameId, homeaway);
+  if (data) {
+    updatePlayerData(playerId, data, setPlayerDetails, setSelectedPlayers);
   }
   setLoading(false);
 };
