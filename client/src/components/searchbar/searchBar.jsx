@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const SearchComponent = () => {
@@ -52,34 +52,57 @@ const SearchComponent = () => {
     setLoading(false);
   };
 
-  const getUpdatedPlayerData = async (playerId, gameId, homeaway) => {
-    setLoading(true);
+  const fetchPlayerData = async (playerId, gameId, homeaway) => {
     try {
       const response = await axios.post("http://127.0.0.1:5000/updatePlayers", {
         player_id: playerId,
         game_id: gameId,
         home_id: homeaway,
       });
-
-      setPlayerDetails({ ...playerDetails, [playerId]: response.data }); // Store player details in state
-
-      // Set the updated player data
-      const updatedPlayerData = response.data;
-
-      // Update the selectedPlayers state with the updated data
-      setSelectedPlayers(
-        selectedPlayers.map((player) => {
-          if (player.id === playerId) {
-            return { ...player, details: updatedPlayerData };
-          }
-          return player;
-        })
-      );
+      return response.data;
     } catch (error) {
       console.error("Error occurred:", error);
     }
+  };
+
+
+  const updatePlayerData = (playerId, data) => {
+    setPlayerDetails({ ...playerDetails, [playerId]: data });
+
+    setSelectedPlayers(selectedPlayers.map(player => {
+      if (player.id === playerId) {
+        return { ...player, details: data };
+      }
+      return player;
+    }));
+  };
+
+  const getUpdatedPlayerData = async (playerId, gameId, homeaway) => {
+    setLoading(true);
+    const data = await fetchPlayerData(playerId, gameId, homeaway);
+    if (data) {
+      updatePlayerData(playerId, data);
+    }
     setLoading(false);
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      selectedPlayers.forEach(player => {
+        if (player.details?.gameId && player.details?.homeaway) {
+          fetchPlayerData(player.id, player.details.gameId, player.details.homeaway)
+            .then(data => {
+              if (data) {
+                updatePlayerData(player.id, data);
+              }
+            });
+        }
+      });
+    }, 15000);
+
+    return () => clearInterval(interval);
+  }, [selectedPlayers, playerDetails]);
+
 
   return (
     <div className="flex flex-col h-screen">
