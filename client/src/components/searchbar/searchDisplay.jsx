@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from "react";
 
 const SearchDisplay = ({
   searchQuery,
@@ -10,7 +11,21 @@ const SearchDisplay = ({
   handleSearch,
   getPlayerDetails,
   getUpdatedPlayerData,
+  isUpdated,
+  setIsUpdated
 }) => {
+  // useEffect(() => {
+  //   // Reset isUpdated after a certain time (e.g., 1 second)
+  //   if (isUpdated) {
+  //     const timeoutId = setTimeout(() => {
+  //       setIsUpdated(false);
+  //     }, 1000);
+
+  //     // Cleanup function to clear the timeout in case the component unmounts
+  //     return () => clearTimeout(timeoutId);
+  //   }
+  // }, [isUpdated, setIsUpdated]);
+
   return (
     <div className="flex flex-col h-screen ">
       <div className="flex justify-center p-4 h-26">
@@ -104,8 +119,9 @@ const SearchDisplay = ({
                       player.details.homeaway
                     )
                   }
+                  disabled={isUpdated}
                 >
-                  Update Player Data
+                  {isUpdated ? 'Updated' : 'Update Player Data'}
                 </button>
               </div>
             </div>

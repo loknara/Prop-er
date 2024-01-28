@@ -66,7 +66,7 @@ export const fetchPlayerData = async (playerId, gameId, homeaway) => {
   }
 };
 
-export const updatePlayerData = (playerId, data, setPlayerDetails, setSelectedPlayers) => {
+export const updatePlayerData = (playerId, data, setPlayerDetails, setSelectedPlayers, setIsUpdated) => {
   setPlayerDetails((prevDetails) => ({
     ...prevDetails,
     [playerId]: data
@@ -80,6 +80,13 @@ export const updatePlayerData = (playerId, data, setPlayerDetails, setSelectedPl
       return player;
     })
   );
+  // Set isUpdated to true to show the updated message
+  setIsUpdated(true);
+
+  // After a certain time (e.g., 1 seconds), reset isUpdated to false
+  setTimeout(() => {
+    setIsUpdated(false);
+  }, 1000); // Adjust the duration as needed
 };
 
 export const getUpdatedPlayerData = async (
@@ -89,12 +96,22 @@ export const getUpdatedPlayerData = async (
   setPlayerDetails,
   setSelectedPlayers,
   selectedPlayers,
-  setLoading
+  setIsUpdated
 ) => {
-  setLoading(true);
-  const data = await fetchPlayerData(playerId, gameId, homeaway);
-  if (data) {
-    updatePlayerData(playerId, data, setPlayerDetails, setSelectedPlayers);
+  // Disable the button immediately to prevent multiple clicks
+  console.log('setIsUpdated:', setIsUpdated);
+  setIsUpdated(true)
+  console.log("after")
+  try {
+    const data = await fetchPlayerData(playerId, gameId, homeaway);
+    
+    if (data) {
+      updatePlayerData(playerId, data, setPlayerDetails, setSelectedPlayers, setIsUpdated);
+    }
+  } finally {
+    // After the asynchronous operation (fetching data), re-enable the button after a certain time
+    setTimeout(() => {
+      setIsUpdated(false);
+    }, 1000); // Adjust the duration as needed
   }
-  setLoading(false);
 };

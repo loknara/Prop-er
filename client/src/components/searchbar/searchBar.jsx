@@ -8,6 +8,7 @@ const SearchComponent = () => {
   const [playerDetails, setPlayerDetails] = useState({});
   const [selectedPlayers, setSelectedPlayers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(false);
 
   // useEffect for periodic updates
   useEffect(() => {
@@ -21,14 +22,14 @@ const SearchComponent = () => {
             setPlayerDetails,
             setSelectedPlayers,
             selectedPlayers,
-            setLoading
+            setIsUpdated
           );
         }
       });
     }, 15000); // Update every 15 seconds
 
     return () => clearInterval(interval);
-  }, [selectedPlayers]); // Dependency on selectedPlayers
+  }, [selectedPlayers, setIsUpdated]); // Dependency on selectedPlayers
 
   return (
     <SearchDisplay
@@ -40,7 +41,9 @@ const SearchComponent = () => {
       loading={loading}
       handleSearch={() => handleSearch(searchQuery, setPlayers, setLoading)}
       getPlayerDetails={(playerId) => getPlayerDetails(playerId, setPlayerDetails, setSelectedPlayers, players, selectedPlayers, setLoading)}
-      getUpdatedPlayerData={(playerId, gameId, homeaway) => getUpdatedPlayerData(playerId, gameId, homeaway, setPlayerDetails, setSelectedPlayers, selectedPlayers, setLoading)}
+      getUpdatedPlayerData={(playerId, gameId, homeaway) => getUpdatedPlayerData(playerId, gameId, homeaway, setPlayerDetails, setSelectedPlayers, selectedPlayers, setIsUpdated)}
+      isUpdated={isUpdated}
+      setIsUpdated={setIsUpdated}
     />
   );
 };

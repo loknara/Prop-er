@@ -45,11 +45,11 @@ const ScoreboardDisplay = ({ scoreboardData }) => {
               </div>
             </div>
             <div className="flex justify-center">
-              <p className="text-2xl text-yellow-400 font-bold">
-                {game.homeTeam.score}
+              <p className="text-2xl text-yellow-400 font-bold mr-1">
+                {game.awayTeam.score}
               </p>
               <p className="text-2xl text-white font-bold">
-                - {game.awayTeam.score}
+                - {game.homeTeam.score}
               </p>
             </div>
             <p className="text-sm text-gray-400">{game.gameStatusText}</p>
