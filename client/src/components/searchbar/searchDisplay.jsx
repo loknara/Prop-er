@@ -12,18 +12,18 @@ const SearchDisplay = ({
   getUpdatedPlayerData,
 }) => {
   return (
-    <div className="flex flex-col h-screen">
-      <div className="flex justify-center p-4">
-        <div className="w-full max-w-xs">
+    <div className="flex flex-col h-screen ">
+      <div className="flex justify-center p-4 h-26">
+        <div className="w-full max-w-xs flex">
           <input
-            className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+            className="w-3/4 h-10 px-3 py-2 mt-3 leading-tight border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search for players..."
           />
           <button
-            className="w-full px-4 py-2 mt-3 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+            className="w-1/4 h-10 ml-3 px-4 py-2 mt-3 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
             onClick={handleSearch}
           >
             Search
@@ -37,7 +37,7 @@ const SearchDisplay = ({
         </div>
       )}
 
-      <div className="flex-1 overflow-auto p-4">
+      <div className="flex-1 overflow-auto p-4 bg-gray-100 rounded shadow mb-7">
         <div className="grid grid-cols-1 gap-4">
           {players.map((player, index) => (
             <div key={index} className="p-4 bg-white rounded shadow">
@@ -67,24 +67,32 @@ const SearchDisplay = ({
         </div>
       </div>
 
-      <div className="w-full p-4 bg-gray-200">
+      <div className="w-full p-4 bg-gray-100 rounded h-96">
         <h2 className="mb-4 text-xl font-bold text-center">Selected Players</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-4 h-80 overflow-auto">
           {selectedPlayers.map((player, index) => (
-            <div key={index} className="p-4 bg-white rounded shadow">
-              <div className="mb-2">
+            <div key={index} className="w-full h-40 p-4 bg-white rounded shadow">
+              <div className="mb-2 text-xs">
                 <strong>Name:</strong> {player.full_name}
               </div>
               <div className="grid grid-cols-2 gap-2 text-sm">
-                {/* Display player stats here */}
-                <p>
+                <p className="text-xs">
                   <strong>Rebounds:</strong>{" "}
                   {player.details?.stat?.reboundsTotal || "0"}
                 </p>
-                <p>
+                <p className="text-xs">
                   <strong>Steals:</strong> {player.details?.stat?.steals || "0"}
                 </p>
-                {/* Other stats... */}
+                <p className="text-xs">
+                  <strong>Points:</strong> {player.details?.stat?.points || "0"}
+                </p>
+                <p className="text-xs">
+                  <strong>Assists:</strong>{" "}
+                  {player.details?.stat?.assists || "0"}
+                </p>
+                <p className="text-xs">
+                  <strong>Blocks:</strong> {player.details?.stat?.blocks || "0"}
+                </p>
               </div>
               <div className="mt-3 text-right">
                 <button
