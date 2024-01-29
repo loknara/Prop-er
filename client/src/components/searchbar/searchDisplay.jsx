@@ -14,7 +14,7 @@ const SearchDisplay = ({
   setIsUpdated
 }) => {
   return (
-    <div className="flex flex-col ml-4">
+    <div className="flex flex-col">
       <div className="flex justify-center p-2 h-18">
         <div className="w-full max-w-xs flex">
           <input
@@ -39,19 +39,15 @@ const SearchDisplay = ({
         </div>
       )}
 
-      <div className="flex-1 overflow-auto p-4 bg-gray-100 rounded shadow">
+      <div className="flex-1 overflow-auto p-4 mr-4">
         <div className="flex-wrap h-64">
           {players.map((player, index) => (
             <div key={index} className="w-full mb-4 p-4 bg-white rounded shadow">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
+
                   <button
-                    className="px-3 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-700 focus:outline-none focus:shadow-outline"
-                  >
-                    -
-                  </button>
-                  <button
-                    className="ml-4 px-3 py-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+                    className="px-3 py-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
                     onClick={() => getPlayerDetails(player.id)}
                   >
                     +
@@ -75,11 +71,11 @@ const SearchDisplay = ({
         </div>
       </div>
 
-      <div className="p-4 bg-gray-100 rounded mt-5">
+      <div className="p-4 mt-5 bg-gray-200 rounded-xl mr-4">
         <h2 className="mb-4 text-xl font-bold text-center">Selected Players</h2>
         <div className="grid grid-cols-3 gap-4 h-72 overflow-auto">
           {selectedPlayers.map((player, index) => (
-            <div key={index} className="w-full h-44 p-4 bg-white rounded shadow">
+            <div key={index} className="w-full h-fit p-4 bg-white rounded shadow">
               <div className="mb-2 text-xs">
               <img
                     src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${player.id}.png`}
@@ -108,19 +104,26 @@ const SearchDisplay = ({
                 </p>
               </div>
               <div className="mt-3 text-right">
-                <button
-                  className="px-3 py-1 text-sm text-white bg-green-500 rounded hover:bg-green-700 focus:outline-none focus:shadow-outline"
-                  onClick={() =>
-                    getUpdatedPlayerData(
-                      player.id,
-                      player.details.gameId,
-                      player.details.homeaway
-                    )
-                  }
-                  disabled={isUpdated}
-                >
-                  {isUpdated ? 'Updated' : 'Update Player Data'}
-                </button>
+                <div className="flex justify-between">
+                  <button
+                    className="px-3 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-700 focus:outline-none focus:shadow-outline"
+                  >
+                    -
+                  </button>
+                  <button
+                    className="px-3 py-1 text-sm text-white bg-green-500 rounded hover:bg-green-700 focus:outline-none focus:shadow-outline"
+                    onClick={() =>
+                      getUpdatedPlayerData(
+                        player.id,
+                        player.details.gameId,
+                        player.details.homeaway
+                      )
+                    }
+                    disabled={isUpdated}
+                  >
+                    {isUpdated ? 'Updated' : 'Update Player Data'}
+                  </button>
+                </div>
               </div>
             </div>
           ))}
