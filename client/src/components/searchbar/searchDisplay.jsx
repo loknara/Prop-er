@@ -1,5 +1,4 @@
 import React from "react";
-import { useState, useEffect } from "react";
 
 const SearchDisplay = ({
   searchQuery,
@@ -14,20 +13,8 @@ const SearchDisplay = ({
   isUpdated,
   setIsUpdated
 }) => {
-  // useEffect(() => {
-  //   // Reset isUpdated after a certain time (e.g., 1 second)
-  //   if (isUpdated) {
-  //     const timeoutId = setTimeout(() => {
-  //       setIsUpdated(false);
-  //     }, 1000);
-
-  //     // Cleanup function to clear the timeout in case the component unmounts
-  //     return () => clearTimeout(timeoutId);
-  //   }
-  // }, [isUpdated, setIsUpdated]);
-
   return (
-    <div className="flex flex-col h-screen ">
+    <div className="flex flex-col h-screen p-5">
       <div className="flex justify-center p-4 h-26">
         <div className="w-full max-w-xs flex">
           <input
@@ -52,9 +39,9 @@ const SearchDisplay = ({
         </div>
       )}
 
-      <div className="flex-1 overflow-auto p-4 bg-gray-100 rounded shadow mb-7">
+      <div className="flex-1 overflow-auto p-4 bg-gray-100 rounded shadow">
         <div className="grid grid-cols-1 gap-4">
-          {players.map((player, index) => (
+          {players.map((player, index) => ( 
             <div key={index} className="p-4 bg-white rounded shadow">
               <div className="flex items-center justify-between">
                 <button
@@ -82,11 +69,11 @@ const SearchDisplay = ({
         </div>
       </div>
 
-      <div className="w-full p-4 bg-gray-100 rounded h-96">
+      <div className="p-4 bg-gray-100 rounded h-96 mt-5">
         <h2 className="mb-4 text-xl font-bold text-center">Selected Players</h2>
         <div className="grid grid-cols-3 gap-4 h-80 overflow-auto">
           {selectedPlayers.map((player, index) => (
-            <div key={index} className="w-full h-40 p-4 bg-white rounded shadow">
+            <div key={index} className="w-full h-44 p-4 bg-white rounded shadow">
               <div className="mb-2 text-xs">
                 <strong>Name:</strong> {player.full_name}
               </div>
