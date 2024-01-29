@@ -88,17 +88,22 @@ def playerScore():
     try:
 
         # print("here")
-        load_boxscore = boxscore.BoxScore(str(load_game_id[0]))
-        # load_boxscore = boxscore.BoxScore(game_id='0022000196')
+        # load_boxscore = boxscore.BoxScore(str(load_game_id[0]))
+        load_boxscore = boxscore.BoxScore(game_id='0022000196')
         load_team = load_boxscore.game.get_dict()
         # print(load_team)
         # print("here2")
-        player_stats = find_player_in_game(load_team, search_query, load_game_id[1])
+        player_stats = find_player_in_game(load_team, search_query, 1)
         print(load_game_id[1])
         # print(player_stats)
+        # tData = {
+        #     'stat' : player_stats,
+        #     'gameId' : load_game_id[0],
+        #     'homeaway' : load_game_id[1]
+        # }
         tData = {
             'stat' : player_stats,
-            'gameId' : load_game_id[0],
+            'gameId' : '0022000196',
             'homeaway' : load_game_id[1]
         }
 
