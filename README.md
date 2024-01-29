@@ -12,5 +12,5 @@ Backend:
 1. cd server
 2. python -m venv env
 3. source env/bin/activate
-4. pip install requirements.txt
+4. pip install -r requirements.txt
 5. flask run 
