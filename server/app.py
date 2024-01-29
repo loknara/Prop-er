@@ -30,6 +30,7 @@ def box():
         # print(player_search_results)
         
         active_players = [player for player in player_search_results if player.get('is_active')]
+        print(active_players)
 
         return jsonify(active_players)
     

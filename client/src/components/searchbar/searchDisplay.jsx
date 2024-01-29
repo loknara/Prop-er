@@ -25,7 +25,7 @@ const SearchDisplay = ({
             placeholder="Search for players..."
           />
           <button
-            className="w-1/4 h-10 ml-3 px-4 py-2 mt-3 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+            className="w-1/4 h-10 ml-3 px-4 py-2 mt-3 font-bold text-center text-white bg-gray-800 rounded transition hover:bg-gray-300 focus:outline-none focus:shadow-outline"
             onClick={handleSearch}
           >
             Search
@@ -81,6 +81,11 @@ const SearchDisplay = ({
           {selectedPlayers.map((player, index) => (
             <div key={index} className="w-full h-44 p-4 bg-white rounded shadow">
               <div className="mb-2 text-xs">
+              <img
+                    src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${player.id}.png`}
+                    alt={player.full_name}
+                    className="w-full h-32 object-cover mb-2 rounded"
+                />
                 <strong>Name:</strong> {player.full_name}
               </div>
               <div className="grid grid-cols-2 gap-2 text-sm">
