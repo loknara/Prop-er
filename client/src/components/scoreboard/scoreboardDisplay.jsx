@@ -17,11 +17,11 @@ const ScoreboardDisplay = ({ scoreboardData }) => {
   };
 
   return (
-    <div className="font-roboto mx-auto p-1 text-center">
-      <h1 className="text-4xl text-yellow-400 uppercase tracking-widest mt-1">
+    <div className="font-roboto mx-auto p-5 text-center">
+      <h1 className="text-4xl text-yellow-400 uppercase tracking-widest mt-6">
         Scoreboard for {scoreboardData.scoreboard.gameDate}
       </h1>
-      <div className="flex flex-wrap justify-center gap-4 mt-5">
+      <div className="flex flex-wrap justify-center gap-4 mt-6">
         {scoreboardData.scoreboard.games.map((game) => (
           <div
             className="flex flex-col w-1/2 md:w-1/3 lg:w-1/3 bg-gray-800 p-6 rounded-lg shadow-lg transition duration-200 ease-in-out hover:scale-105 hover:shadow-xl"
