@@ -1,17 +1,20 @@
 import React from "react";
-import Dashboard from "./components/dashboard.jsx";
-import {
-  Route,
-  Routes,
-  BrowserRouter,
-} from "react-router-dom";
+import Dashboard from "./pages/dashboard.jsx";
+import HomePage from "./pages/HomePage.jsx";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
+import Navbar from "./components/layout/navbar.jsx";
 
 const App = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-      </Routes>
+      <Navbar />
+      <div className="mt-16">
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/about" element={<Dashboard />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 };

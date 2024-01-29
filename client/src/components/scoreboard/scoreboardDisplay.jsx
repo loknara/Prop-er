@@ -18,7 +18,7 @@ const ScoreboardDisplay = ({ scoreboardData }) => {
 
   return (
     <div className="font-roboto mx-auto p-5 text-center">
-      <h1 className="text-4xl text-yellow-400 uppercase tracking-widest mt-6">
+      <h1 className="text-4xl text-yellow-400 uppercase tracking-widest">
         Scoreboard for {scoreboardData.scoreboard.gameDate}
       </h1>
       <div className="flex flex-wrap justify-center gap-4 mt-6">
