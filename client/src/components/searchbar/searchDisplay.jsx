@@ -15,23 +15,23 @@ const SearchDisplay = ({
 }) => {
   return (
     <div className="flex flex-col h-screen p-5">
-      <div className="flex justify-center p-4 h-26">
-        <div className="w-full max-w-xs flex">
-          <input
-            className="w-3/4 h-10 px-3 py-2 mt-3 leading-tight border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search for players..."
-          />
-          <button
-            className="w-1/4 h-10 ml-3 px-4 py-2 mt-3 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-            onClick={handleSearch}
-          >
-            Search
-          </button>
-        </div>
+      <div className="flex justify-center p-4">
+      <div className="flex w-full max-w-md">
+        <input
+          className="flex-grow h-12 px-4 text-xl border-2 border-r-0 border-gray-300 rounded-l-lg focus:outline-none"
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search for a player or team"
+        />
+        <button
+          className="w-auto px-8 h-12 text-xl font-semibold text-white bg-blue-600 rounded-r-lg hover:bg-blue-700 focus:outline-none"
+          onClick={handleSearch}
+        >
+          Search
+        </button>
       </div>
+    </div>
 
       {loading && (
         <div className="flex items-center justify-center p-4">
