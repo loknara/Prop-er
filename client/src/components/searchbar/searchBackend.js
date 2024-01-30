@@ -1,6 +1,11 @@
 import axios from "axios";
 
-export const handleSearch = async (searchQuery, setPlayers, setLoading) => {
+export const handleSearch = async (
+  searchQuery,
+  setPlayers,
+  setLoading,
+  setShowDropdown
+) => {
   setLoading(true);
   try {
     const response = await axios.post("http://127.0.0.1:5000/search", {
@@ -12,7 +17,17 @@ export const handleSearch = async (searchQuery, setPlayers, setLoading) => {
     setPlayers([]);
   }
   setLoading(false);
+  setShowDropdown(true);
 };
+
+export const handleInputChange = (event, setSearchQuery, searchQuery, players, setPlayers, setLoading, setShowDropdown) => {
+
+  const inputValue = event.target.value;
+  
+  setSearchQuery((prevSearchQuery) => inputValue)
+
+  handleSearch(inputValue, setPlayers, setLoading, setShowDropdown)
+}
 
 export const getPlayerDetails = async (
   playerId,
@@ -20,7 +35,8 @@ export const getPlayerDetails = async (
   setSelectedPlayers,
   players,
   selectedPlayers,
-  setLoading
+  setLoading,
+  setShowDropdown
 ) => {
   setLoading(true);
   try {
@@ -41,6 +57,7 @@ export const getPlayerDetails = async (
     if (!selectedPlayers.some((player) => player.id === playerId)) {
       setSelectedPlayers((prevSelected) => [...prevSelected, playerToAdd]);
     }
+    setShowDropdown(false);
   } catch (error) {
     console.error("Error occurred:", error);
     const errorMessage =
@@ -49,8 +66,36 @@ export const getPlayerDetails = async (
       ...prevDetails,
       [playerId]: errorMessage,
     }));
+    setShowDropdown(false);
   }
   setLoading(false);
+};
+
+export const removePlayer = (
+  playerId,
+  setPlayerDetails,
+  setSelectedPlayers,
+  setIsUpdated
+) => {
+  // Remove player from state based on playerId
+  setPlayerDetails((prevDetails) => {
+    const updatedDetails = { ...prevDetails };
+    delete updatedDetails[playerId];
+    return updatedDetails;
+  });
+
+  // Remove player from selected players
+  setSelectedPlayers((prevSelected) =>
+    prevSelected.filter((player) => player.id !== playerId)
+  );
+
+  // Optional: You may want to update the UI to indicate that the player was removed
+  setIsUpdated(true);
+
+  // Reset isUpdated after a certain time
+  setTimeout(() => {
+    setIsUpdated(false);
+  }, 1000);
 };
 
 export const fetchPlayerData = async (playerId, gameId, homeaway) => {
@@ -66,10 +111,18 @@ export const fetchPlayerData = async (playerId, gameId, homeaway) => {
   }
 };
 
-export const updatePlayerData = (playerId, data, setPlayerDetails, setSelectedPlayers, setIsUpdated) => {
+
+
+export const updatePlayerData = (
+  playerId,
+  data,
+  setPlayerDetails,
+  setSelectedPlayers,
+  setIsUpdated
+) => {
   setPlayerDetails((prevDetails) => ({
     ...prevDetails,
-    [playerId]: data
+    [playerId]: data,
   }));
 
   setSelectedPlayers((prevSelected) =>
@@ -99,14 +152,20 @@ export const getUpdatedPlayerData = async (
   setIsUpdated
 ) => {
   // Disable the button immediately to prevent multiple clicks
-  console.log('setIsUpdated:', setIsUpdated);
-  setIsUpdated(true)
-  console.log("after")
+  console.log("setIsUpdated:", setIsUpdated);
+  setIsUpdated(true);
+  console.log("after");
   try {
     const data = await fetchPlayerData(playerId, gameId, homeaway);
-    
+
     if (data) {
-      updatePlayerData(playerId, data, setPlayerDetails, setSelectedPlayers, setIsUpdated);
+      updatePlayerData(
+        playerId,
+        data,
+        setPlayerDetails,
+        setSelectedPlayers,
+        setIsUpdated
+      );
     }
   } finally {
     // After the asynchronous operation (fetching data), re-enable the button after a certain time
