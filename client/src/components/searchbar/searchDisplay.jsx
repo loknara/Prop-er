@@ -14,8 +14,8 @@ const SearchDisplay = ({
   setIsUpdated
 }) => {
   return (
-    <div className="flex flex-col h-[98%]">
-      <div>
+    <div className="flex flex-col h-[88dvh]">
+      <div className="h-[45%]">
         <div className="flex justify-center p-2 h-18">
           <div className="w-full max-w-xs flex">
             <input
@@ -36,8 +36,8 @@ const SearchDisplay = ({
 
 
 
-        <div className="flex-1 overflow-auto p-4 mr-4">
-          <div className="flex-wrap h-48 mb-8">
+        <div className="flex-1 overflow-auto p-4 mr-4 h-[75%]">
+          <div className="flex-wrap mb-8">
             {loading && (
               <div className="flex items-center justify-center">
                 <p className="text-xl text-gray-800">Loading...</p>
@@ -72,9 +72,9 @@ const SearchDisplay = ({
           </div>
         </div>
       </div>
-      <div className="p-4 bg-gray-200 rounded-xl mr-4">
-        <h2 className="mb-4 text-xl font-bold text-center">Selected Players</h2>
-        <div className="grid grid-cols-3 gap-4 h-72 overflow-auto">
+      <div className="p-4 bg-gray-200 rounded-xl mr-4 h-[55%] mt-4">
+        <h2 className="mb-2 text-xl font-bold text-center">Selected Players</h2>
+        <div className="grid grid-cols-3 gap-4 h-[90%] overflow-auto">
           {selectedPlayers.map((player, index) => (
             <div key={index} className="w-full h-fit p-4 bg-white rounded shadow">
               <div className="mb-2 text-xs">
