@@ -21,7 +21,7 @@ const ScoreboardDisplay = ({ scoreboardData }) => {
       <h1 className="text-4xl font-bold uppercase tracking-widest">
         Today's Scoreboard
       </h1>
-      <div className="flex flex-wrap h-[95%] justify-center gap-4 mt-6 overflow-auto">
+      <div className="flex flex-wrap p-4 h-[95%] justify-center gap-4 mt-6 overflow-auto">
         {scoreboardData.scoreboard.games.map((game) => (
           <div
             className="flex flex-col w-11/12 md:w-11/12 lg:w-5/12 bg-gray-800 p-6 rounded-lg shadow-lg transition duration-200 ease-in-out hover:scale-105 hover:shadow-xl"
