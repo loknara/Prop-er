@@ -10,30 +10,19 @@ app = Flask(__name__)
 CORS(app)
 
 
-
-
-@app.route("/")
-def hello_world():
-    return "<p>Home Page</p>"
-
-
 @app.route("/search", methods=['GET', 'POST'])
 def box():
-
     if request.method == 'POST':
         data = request.json
-        search_query = data.get('search_query', '')  # Default to an empty string if key not found
-        
-        player_search_results = players.find_players_by_full_name(str(search_query))
-        
-        # print(search_query)
-        # print(player_search_results)
-        
-        active_players = [player for player in player_search_results if player.get('is_active')]
+        search_query = data.get('search_query', '')
+
+        player_search_results = players.find_players_by_full_name(
+            str(search_query))
+        active_players = [
+            player for player in player_search_results if player.get('is_active')]
         print(active_players)
 
         return jsonify(active_players)
-    
 
 
 @app.route("/playerscore", methods=['GET', 'POST'])
@@ -42,32 +31,29 @@ def playerScore():
         data = request.json
         search_query = data.get('player_id', '')
         game = scoreboard.ScoreBoard()
-        # print(search_query)
-
-        playerinfo = commonplayerinfo.CommonPlayerInfo(player_id=str(search_query))#player_id=str(search_query)
+        playerinfo = commonplayerinfo.CommonPlayerInfo(
+            player_id=str(search_query))
         load_player_info = playerinfo.get_dict()
         load_result_set = load_player_info['resultSets'][0]
         teamId = load_result_set['rowSet'][0][18]
 
         def find_teams_in_games(data, teamIds):
-            # Iterate through each game in the data
-            
+
             tempARR = []
             tempARR.clear()
             for game in data['scoreboard']['games']:
                 home_team_id = game['homeTeam']['teamId']
                 away_team_id = game['awayTeam']['teamId']
 
-                # Check if the home or away team's ID is in the list of team_ids
-                if (home_team_id == teamIds) :
-                    tempARR.insert(0,game['gameId'])
-                    tempARR.insert(1,1)
+                if (home_team_id == teamIds):
+                    tempARR.insert(0, game['gameId'])
+                    tempARR.insert(1, 1)
                     return tempARR
                 if (away_team_id == teamIds):
-                    tempARR.insert(0,game['gameId'])
-                    tempARR.insert(1,0)
+                    tempARR.insert(0, game['gameId'])
+                    tempARR.insert(1, 0)
                     return tempARR
-                
+
         load_todays_games = game.get_dict()
         load_game_id = find_teams_in_games(load_todays_games, teamId)
 
@@ -86,80 +72,41 @@ def playerScore():
                         return test
 
     try:
-
-        # print("here")
         load_boxscore = boxscore.BoxScore(str(load_game_id[0]))
-        # load_boxscore = boxscore.BoxScore(game_id='0022000196')
         load_team = load_boxscore.game.get_dict()
-        # print(load_team)
-        # print("here2")
-        player_stats = find_player_in_game(load_team, search_query, load_game_id[1])
+        player_stats = find_player_in_game(
+            load_team, search_query, load_game_id[1])
         print(load_game_id[1])
-        # print(player_stats)
         tData = {
-            'stat' : player_stats,
-            'gameId' : load_game_id[0],
-            'homeaway' : load_game_id[1]
+            'stat': player_stats,
+            'gameId': load_game_id[0],
+            'homeaway': load_game_id[1]
         }
-        # tData = {
-        #     'stat' : player_stats,
-        #     'gameId' : '0022000196',
-        #     'homeaway' : load_game_id[1]
-        # }
-
         print(tData)
-        # print(tData)
-        # json_str = json.dumps(tData)
-        # print(json_str)
-        # print("here3")
-        # print(player_stats)
-        return jsonify(tData)  # Return the player statistics to the frontend
+        return jsonify(tData)
     except:
         print("Player not playing or information not available yet")
-        # return jsonify({"message": "Player not playing or information not available yet"})  # Return a message to the frontend
         return make_response(jsonify({"message": "Player not playing or information not available yet"}), 400)
 
 
-@app.route('/scoreboard', methods = ['GET'])
+@app.route('/scoreboard', methods=['GET'])
 def scoreboardFunc():
     games = scoreboard.ScoreBoard()
     data2 = games.get_dict()
     return jsonify(data2)
 
-@app.route('/updatePlayers', methods = ['GET', 'POST'])
+
+@app.route('/updatePlayers', methods=['GET', 'POST'])
 def updatePlayers():
     if request.method == 'POST':
         data = request.json
         player_query = data.get('player_id', '')
         game_query = data.get('game_id', '')
-        home_query = data.get('home_id','')
+        home_query = data.get('home_id', '')
 
         print(player_query)
         print(game_query)
         print(home_query)
-        game = scoreboard.ScoreBoard()
-
-        # def find_teams_in_games(data, teamIds):
-        #     # Iterate through each game in the data
-            
-        #     tempARR = []
-        #     tempARR.clear()
-        #     for game in data['scoreboard']['games']:
-        #         home_team_id = game['homeTeam']['teamId']
-        #         away_team_id = game['awayTeam']['teamId']
-
-        #         # Check if the home or away team's ID is in the list of team_ids
-        #         if (home_team_id == teamIds) :
-        #             tempARR.insert(0,game['gameId'])
-        #             tempARR.insert(1,True)
-        #             return tempARR
-        #         if (away_team_id == teamIds):
-        #             tempARR.insert(0,game['gameId'])
-        #             tempARR.insert(1,False)
-        #             return tempARR
-                
-        # load_todays_games = game.get_dict()
-        # load_game_id = find_teams_in_games(load_todays_games, teamId)
 
         def find_player_in_game(data, playerId, flag):
             print("trollll")
@@ -179,32 +126,18 @@ def updatePlayers():
                         return test
 
     try:
-
         print("here")
         load_boxscore = boxscore.BoxScore(str(game_query))
-
         # load_boxscore = boxscore.BoxScore(game_id='0022000196')
         load_team = load_boxscore.game.get_dict()
-        # print(load_team)
-        # print("here2")
-        print(home_query)
-        print("here instead")
-        player_stats = find_player_in_game(load_team, player_query,home_query)
-        print(player_stats)
+        player_stats = find_player_in_game(load_team, player_query, home_query)
         tData = {
-            'stat' : player_stats,
-            'gameId' : game_query,
-            'homeaway':home_query
+            'stat': player_stats,
+            'gameId': game_query,
+            'homeaway': home_query
 
         }
-
-        # print(tData)
-        # json_str = json.dumps(tData)
-        # print(json_str)
-        # print("here3")
-        # print(player_stats)
-        return jsonify(tData)  # Return the player statistics to the frontend
+        return jsonify(tData)
     except:
         print("Player not playing or information not available yet")
-        # return jsonify({"message": "Player not playing or information not available yet"})  # Return a message to the frontend
         return make_response(jsonify({"message": "Player not playing or information not available yet"}), 400)
