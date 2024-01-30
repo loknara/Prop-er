@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SearchDisplay from "./searchDisplay";
-import { handleSearch, getPlayerDetails, getUpdatedPlayerData } from "./searchBackend";
+import { handleSearch, getPlayerDetails, getUpdatedPlayerData, handleInputChange } from "./searchBackend";
 
 const SearchComponent = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -9,6 +9,7 @@ const SearchComponent = () => {
   const [selectedPlayers, setSelectedPlayers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   // useEffect for periodic updates
   useEffect(() => {
@@ -39,11 +40,18 @@ const SearchComponent = () => {
       playerDetails={playerDetails}
       selectedPlayers={selectedPlayers}
       loading={loading}
-      handleSearch={() => handleSearch(searchQuery, setPlayers, setLoading)}
-      getPlayerDetails={(playerId) => getPlayerDetails(playerId, setPlayerDetails, setSelectedPlayers, players, selectedPlayers, setLoading)}
+      handleSearch={() => handleSearch(searchQuery, setPlayers, setLoading, setShowDropdown)}
+      getPlayerDetails={(playerId) => getPlayerDetails(playerId, setPlayerDetails, setSelectedPlayers, players, selectedPlayers, setLoading, setShowDropdown)}
       getUpdatedPlayerData={(playerId, gameId, homeaway) => getUpdatedPlayerData(playerId, gameId, homeaway, setPlayerDetails, setSelectedPlayers, selectedPlayers, setIsUpdated)}
       isUpdated={isUpdated}
       setIsUpdated={setIsUpdated}
+      showDropdown={showDropdown}
+      setShowDropdown={setShowDropdown}
+      setSelectedPlayers={setSelectedPlayers}
+      setPlayerDetails={setPlayerDetails}
+      setLoading={setLoading}
+      setPlayers={setPlayers}
+      handleInputChange={(e) => handleInputChange(e, setSearchQuery, searchQuery, players, setPlayers, setLoading, setShowDropdown)}
     />
   );
 };
