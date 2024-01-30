@@ -8,7 +8,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Navbar />
-      <div className="mt-16 bg-gray-300">
+      <div className="mt-16 bg-gray-300 h-[92dvh]">
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/home" element={<HomePage />} />
