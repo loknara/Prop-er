@@ -41,7 +41,7 @@ const SearchComponent = () => {
       selectedPlayers={selectedPlayers}
       loading={loading}
       handleSearch={() => handleSearch(searchQuery, setPlayers, setLoading, setShowDropdown)}
-      getPlayerDetails={(playerId) => getPlayerDetails(playerId, setPlayerDetails, setSelectedPlayers, players, selectedPlayers, setLoading, setShowDropdown)}
+      getPlayerDetails={(playerId) => getPlayerDetails(playerId, setPlayerDetails, setSelectedPlayers, players, selectedPlayers, setLoading, setShowDropdown, setSearchQuery)}
       getUpdatedPlayerData={(playerId, gameId, homeaway) => getUpdatedPlayerData(playerId, gameId, homeaway, setPlayerDetails, setSelectedPlayers, selectedPlayers, setIsUpdated)}
       isUpdated={isUpdated}
       setIsUpdated={setIsUpdated}

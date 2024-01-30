@@ -36,7 +36,8 @@ export const getPlayerDetails = async (
   players,
   selectedPlayers,
   setLoading,
-  setShowDropdown
+  setShowDropdown,
+  setSearchQuery
 ) => {
   setLoading(true);
   try {
@@ -58,6 +59,8 @@ export const getPlayerDetails = async (
       setSelectedPlayers((prevSelected) => [...prevSelected, playerToAdd]);
     }
     setShowDropdown(false);
+
+    setSearchQuery("")
   } catch (error) {
     console.error("Error occurred:", error);
     const errorMessage =
