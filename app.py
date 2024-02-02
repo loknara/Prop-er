@@ -93,7 +93,7 @@ def playerScore():
 
 
 @app.route('/scoreboard', methods=['GET'])
-@cross_origin(origins=["https://prop-er-661310a03a24.herokuapp.com"])
+@cross_origin(origins=["https://prop-er-eebf42685c52.herokuapp.com/"])
 def scoreboardFunc():
     games = scoreboard.ScoreBoard()
     data2 = games.get_dict()
