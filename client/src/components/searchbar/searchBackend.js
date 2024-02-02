@@ -8,7 +8,7 @@ export const handleSearch = async (
 ) => {
   setLoading(true);
   try {
-    const response = await axios.post("http://127.0.0.1:5000/search", {
+    const response = await axios.post("/search", {
       search_query: searchQuery,
     });
     setPlayers(response.data);
@@ -41,7 +41,7 @@ export const getPlayerDetails = async (
 ) => {
   setLoading(true);
   try {
-    const response = await axios.post("http://127.0.0.1:5000/playerscore", {
+    const response = await axios.post("/playerscore", {
       player_id: playerId,
     });
     setPlayerDetails((prevDetails) => ({
@@ -103,7 +103,7 @@ export const removePlayer = (
 
 export const fetchPlayerData = async (playerId, gameId, homeaway) => {
   try {
-    const response = await axios.post("http://127.0.0.1:5000/updatePlayers", {
+    const response = await axios.post("/updatePlayers", {
       player_id: playerId,
       game_id: gameId,
       home_id: homeaway,

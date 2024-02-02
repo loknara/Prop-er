@@ -8,7 +8,7 @@ const useScoreboardData = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:5000/scoreboard");
+        const response = await axios.get("/scoreboard");
         setScoreboardData(response.data);
       } catch (error) {
         setError(error);
