@@ -8,8 +8,7 @@ from nba_api.live.nba.endpoints import boxscore
 from nba_api.stats.endpoints import playercareerstats, commonplayerinfo
 
 app = Flask(__name__, static_folder='../client/build', static_url_path='')
-CORS(app, resources={
-     r"/*": {"origins": "https://prop-er-661310a03a24.herokuapp.com"}})
+CORS(app)
 
 
 @app.route('/', defaults={'path': ''})
@@ -104,7 +103,7 @@ def playerScore():
 
 
 @app.route('/scoreboard', methods=['GET'])
-@cross_origin()
+@cross_origin(origins=["https://prop-er-661310a03a24.herokuapp.com"])
 def scoreboardFunc():
     games = scoreboard.ScoreBoard()
     data2 = games.get_dict()
