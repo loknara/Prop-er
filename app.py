@@ -7,18 +7,14 @@ from nba_api.live.nba.endpoints import scoreboard
 from nba_api.live.nba.endpoints import boxscore
 from nba_api.stats.endpoints import playercareerstats, commonplayerinfo
 
-app = Flask(__name__, static_folder='../client/build', static_url_path='')
+app = Flask(__name__, static_folder='client/build', static_url_path='')
 CORS(app)
 
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
+@app.route('/')
 @cross_origin()
-def serve(path):
-    if path != "" and os.path.exists(app.static_folder + '/' + path):
-        return send_from_directory(app.static_folder, path)
-    else:
-        return send_from_directory(app.static_folder, 'index.html')
+def serve():
+    return send_from_directory(app.static_folder, 'index.html')
 
 
 @app.route("/search", methods=['GET', 'POST'])
