@@ -11,12 +11,6 @@ app = Flask(__name__, static_folder='client/build', static_url_path='')
 CORS(app)
 
 
-@app.route('/')
-@cross_origin()
-def serve():
-    return send_from_directory(app.static_folder, 'index.html')
-
-
 @app.route("/search", methods=['GET', 'POST'])
 @cross_origin()
 def box():
@@ -152,6 +146,20 @@ def updatePlayers():
     except:
         print("Player not playing or information not available yet")
         return make_response(jsonify({"message": "Player not playing or information not available yet"}), 400)
+
+
+@app.route('/api', methods=['GET'])
+@cross_origin()
+def index():
+    return {
+        "tut": "flask lol"
+    }
+
+
+@app.route('/')
+@cross_origin()
+def serve():
+    return send_from_directory(app.static_folder, 'index.html')
 
 
 if __name__ == "__main__":
