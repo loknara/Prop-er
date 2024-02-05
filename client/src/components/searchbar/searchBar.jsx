@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SearchDisplay from "./searchDisplay";
-import { handleSearch, getPlayerDetails, getUpdatedPlayerData, handleInputChange } from "./searchBackend";
+import { handleSearch, getPlayerDetails, getUpdatedPlayerData, handleInputChange, updateAllPlayers } from "./searchBackend";
 
 const SearchComponent = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -12,25 +12,26 @@ const SearchComponent = () => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   // useEffect for periodic updates
-  useEffect(() => {
-    const interval = setInterval(() => {
-      selectedPlayers.forEach((player) => {
-        if (player.details?.gameId && player.details?.homeaway) {
-          getUpdatedPlayerData(
-            player.id,
-            player.details.gameId,
-            player.details.homeaway,
-            setPlayerDetails,
-            setSelectedPlayers,
-            selectedPlayers,
-            setIsUpdated
-          );
-        }
-      });
-    }, 15000); // Update every 15 seconds
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     selectedPlayers.forEach((player) => {
+  //       if (player.details?.gameId && player.details?.homeaway) {
+  //         getUpdatedPlayerData(
+  //           player.id,
+  //           player.details.gameId,
+  //           player.details.homeaway,
+  //           setPlayerDetails,
+  //           setSelectedPlayers,
+  //           selectedPlayers,
+  //           setIsUpdated
+  //         );
+  //       }
+  //     });
+  //   }, 30000); // Update every 15 seconds
 
-    return () => clearInterval(interval);
-  }, [selectedPlayers, setIsUpdated]); // Dependency on selectedPlayers
+  //   return () => clearInterval(interval);
+  // }, [selectedPlayers, setIsUpdated]); // Dependency on selectedPlayers
+
 
   return (
     <SearchDisplay
@@ -52,6 +53,7 @@ const SearchComponent = () => {
       setLoading={setLoading}
       setPlayers={setPlayers}
       handleInputChange={(e) => handleInputChange(e, setSearchQuery, searchQuery, players, setPlayers, setLoading, setShowDropdown)}
+      updateAllPlayers={() => updateAllPlayers(selectedPlayers, setIsUpdated, setPlayerDetails, setSelectedPlayers)}
     />
   );
 };

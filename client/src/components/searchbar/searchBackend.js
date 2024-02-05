@@ -155,9 +155,7 @@ export const getUpdatedPlayerData = async (
   setIsUpdated
 ) => {
   // Disable the button immediately to prevent multiple clicks
-  console.log("setIsUpdated:", setIsUpdated);
   setIsUpdated(true);
-  console.log("after");
   try {
     const data = await fetchPlayerData(playerId, gameId, homeaway);
 
@@ -177,3 +175,31 @@ export const getUpdatedPlayerData = async (
     }, 1000); // Adjust the duration as needed
   }
 };
+
+export const updateAllPlayers = async (selectedPlayers, setIsUpdated, setPlayerDetails, setSelectedPlayers) => {
+  console.log(selectedPlayers);
+  setIsUpdated(true);
+    try {
+      // Loop through selected players and update them
+      for (const player of selectedPlayers) {
+        // Assuming you have some logic to determine gameId and homeaway
+        const gameId = player.details.gameId; // Replace with actual logic
+        const homeaway = player.details.homeaway; // Replace with actual logic
+        await getUpdatedPlayerData(
+          player.id,
+          gameId,
+          homeaway,
+          setPlayerDetails,
+          setSelectedPlayers,
+          selectedPlayers,
+          setIsUpdated
+        );
+      }
+    } finally {
+      // After the asynchronous operation (fetching data for all players),
+      // re-enable the button after a certain time
+      setTimeout(() => {
+        setIsUpdated(false);
+      }, 1000); // Adjust the duration as needed
+    }
+}

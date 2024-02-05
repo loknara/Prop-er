@@ -1,5 +1,6 @@
 import React from "react";
-import { handleInputChange, removePlayer } from "./searchBackend";
+import { handleInputChange, removePlayer, updateAllPlayers } from "./searchBackend";
+import { useEffect } from "react";
 
 const SearchDisplay = ({
   searchQuery,
@@ -18,8 +19,20 @@ const SearchDisplay = ({
   setPlayerDetails,
   setSelectedPlayers,
   setLoading,
-  setPlayers
+  setPlayers,
+  updateAllPlayers
 }) => {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      updateAllPlayers(selectedPlayers, setIsUpdated, setPlayerDetails, setSelectedPlayers)
+    }, 20000); // Update every 15 seconds
+
+    return () => clearInterval(interval);
+  }, [updateAllPlayers]); // Dependency on selectedPlayers
+
+  const handleUpdateAllPlayers = async () => {
+    await updateAllPlayers(selectedPlayers, setIsUpdated, setPlayerDetails, setSelectedPlayers);
+  }
   const getFontSizeClass = (name) => {
 
     if (name.length > 22) {
@@ -68,7 +81,7 @@ const SearchDisplay = ({
                   )
 
                   )} */}
-                  {players.map((player, index) => (
+                  {players.slice(0, 10).map((player, index) => (
                     <div
                       key={index}
                       className="px-4 py-2 hover:bg-gray-200 cursor-pointer flex items-center border-b"
@@ -91,7 +104,11 @@ const SearchDisplay = ({
 
 
       <div className="p-4 bg-gray-200 rounded-xl mr-4 h-[95%] mt-0">
-        <h2 className="mb-2 text-xl font-bold text-center">Selected Players</h2>
+      <div className="flex mb-4">
+        <h2 className="ml-[40%] text-xl font-bold text-center">Selected Players</h2>
+        <button className="ml-[13%] px-3 py-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline" 
+        onClick={handleUpdateAllPlayers} disabled={isUpdated}>{isUpdated ? 'Updated' : 'Update All Players'}</button>
+      </div>
         <div className="grid grid-cols-3 gap-4 h-[90%] overflow-auto">
           {selectedPlayers.map((player, index) => (
             <div key={index} className="w-full h-fit p-4 bg-white rounded shadow">
@@ -137,7 +154,7 @@ const SearchDisplay = ({
                     -
                   </button>
                   <button
-                    className="px-3 py-1 text-sm text-white bg-green-500 rounded hover:bg-green-700 focus:outline-none focus:shadow-outline"
+                    className="px-3 py-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
                     onClick={() =>
                       getUpdatedPlayerData(
                         player.id,
