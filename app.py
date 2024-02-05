@@ -3,6 +3,7 @@ from flask_cors import CORS, cross_origin
 import json
 import os
 from nba_api.stats.static import players
+
 from nba_api.live.nba.endpoints import scoreboard
 from nba_api.live.nba.endpoints import boxscore
 from nba_api.stats.endpoints import playercareerstats, commonplayerinfo
@@ -10,21 +11,32 @@ from nba_api.stats.endpoints import playercareerstats, commonplayerinfo
 app = Flask(__name__, static_folder='client/build', static_url_path='')
 CORS(app)
 
+with open('players.json', 'r') as json_file:
+    players_data = json.load(json_file).get('players', [])
 
 @app.route("/search", methods=['GET', 'POST'])
 @cross_origin()
 def box():
     if request.method == 'POST':
         data = request.json
-        search_query = data.get('search_query', '')
+        search_query = data.get('search_query', '').lower()
 
-        player_search_results = players.find_players_by_full_name(
-            str(search_query))
-        active_players = [
-            player for player in player_search_results if player.get('is_active')]
-        print(active_players)
+        player_search_results = [player for player in players_data if search_query in player.get('full_name', '').lower()]
 
-        return jsonify(active_players)
+        return jsonify(player_search_results)
+# def box():
+#     if request.method == 'POST':
+#         data = request.json
+#         search_query = data.get('search_query', '')
+
+#         player_search_results = players.find_players_by_full_name(
+#             str(search_query))
+#         active_players = [
+#             player for player in player_search_results if player.get('is_active')]
+#         print(active_players)
+
+#         return jsonify(active_players)
+    
 
 
 @app.route("/playerscore", methods=['GET', 'POST'])
@@ -79,13 +91,11 @@ def playerScore():
         load_team = load_boxscore.game.get_dict()
         player_stats = find_player_in_game(
             load_team, search_query, load_game_id[1])
-        print(load_game_id[1])
         tData = {
             'stat': player_stats,
             'gameId': load_game_id[0],
             'homeaway': load_game_id[1]
         }
-        print(tData)
         return jsonify(tData)
     except:
         print("Player not playing or information not available yet")
@@ -110,28 +120,22 @@ def updatePlayers():
         home_query = data.get('home_id', '')
 
         print(player_query)
-        print(game_query)
-        print(home_query)
 
         def find_player_in_game(data, playerId, flag):
-            print("trollll")
             if flag == 1:
                 for players in data['homeTeam']['players']:
                     personId = players['personId']
                     if playerId == personId:
                         test = players['statistics']
-                        print("lolz")
                         return test
             else:
-                print("now why am i in here?")
                 for players in data['awayTeam']['players']:
                     personId = players['personId']
                     if playerId == personId:
                         test = players['statistics']
                         return test
 
-    try:
-        print("here")
+    try: 
         load_boxscore = boxscore.BoxScore(str(game_query))
         # load_boxscore = boxscore.BoxScore(game_id='0022000196')
         load_team = load_boxscore.game.get_dict()
