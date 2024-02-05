@@ -14,6 +14,7 @@ CORS(app)
 with open('players.json', 'r') as json_file:
     players_data = json.load(json_file).get('players', [])
 
+
 @app.route("/search", methods=['GET', 'POST'])
 @cross_origin()
 def box():
@@ -21,7 +22,8 @@ def box():
         data = request.json
         search_query = data.get('search_query', '').lower()
 
-        player_search_results = [player for player in players_data if search_query in player.get('full_name', '').lower()]
+        player_search_results = [
+            player for player in players_data if search_query in player.get('full_name', '').lower()]
 
         return jsonify(player_search_results)
 # def box():
@@ -36,7 +38,6 @@ def box():
 #         print(active_players)
 
 #         return jsonify(active_players)
-    
 
 
 @app.route("/playerscore", methods=['GET', 'POST'])
@@ -46,8 +47,26 @@ def playerScore():
         data = request.json
         search_query = data.get('player_id', '')
         game = scoreboard.ScoreBoard()
+        custom_headers = {
+            'Host': 'stats.nba.com',
+            'Connection': 'keep-alive',
+            'Cache-Control': 'max-age=0',
+            'Upgrade-Insecure-Requests': '1',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Accept-Language': 'en-US,en;q=0.9',
+        }
+
+# Timeout Settings
+        timeout = 100  # Timeout in seconds
+
+# API Call with Custom Headers and Timeout
         playerinfo = commonplayerinfo.CommonPlayerInfo(
-            player_id=str(search_query))
+            player_id=str(search_query),
+            headers=custom_headers,
+            timeout=timeout
+        )
         load_player_info = playerinfo.get_dict()
         load_result_set = load_player_info['resultSets'][0]
         teamId = load_result_set['rowSet'][0][18]
@@ -135,7 +154,7 @@ def updatePlayers():
                         test = players['statistics']
                         return test
 
-    try: 
+    try:
         load_boxscore = boxscore.BoxScore(str(game_query))
         # load_boxscore = boxscore.BoxScore(game_id='0022000196')
         load_team = load_boxscore.game.get_dict()
