@@ -47,61 +47,61 @@ const SearchDisplay = ({
           <div className="w-[100%] relative">
             <div className="flex w-full items-center justify-between">
               <input
-                className="w-[74%] h-10 px-3 py-2 leading-tight border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                className="w-[74%] h-10 px-3 py-2 leading-tight text-white bg-gray-800 border border-gray-700/50 rounded shadow 
+                  appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-400/50 placeholder-gray-500"
                 type="text"
                 value={searchQuery}
-                // onChange={(e) => setSearchQuery(e.target.value)}
                 onChange={(e) => handleInputChange(e, setSearchQuery, searchQuery, players, setPlayers, setLoading, setShowDropdown)}
-                // onChange={e => { handleInputChange(e.target.value, setSearchQuery, searchQuery, setPlayers, setLoading, setShowDropdown) }}
-                // onInput={e => setSearchQuery(e.target.value)}
-                // onChange={handleInputChange}
                 placeholder="Search for players..."
               />
               <button
-                className="w-[25%] h-10 px-4 py-2 font-bold flex items-center justify-center  text-white bg-gray-800 rounded transition hover:bg-gray-700 focus:outline-none focus:shadow-outline"
+                className="w-[25%] h-10 px-4 py-2 font-bold flex items-center justify-center text-white bg-gray-800 
+                  rounded transition hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 
+                  border border-gray-700/50"
                 onClick={handleSearch}
               >
                 Search
               </button>
             </div>
 
-            {showDropdown && (
-              players.length > 0 && (
-                <div className="absoluteleft-0 w-[74%] max-h-40 overflow-y-auto bg-white border shadow">
-                  {/* {players.map((player, index) => (
-                    <div
-                      key={index}
-                      className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-                      onClick={() => getPlayerDetails(player.id)}
-                    >
-              
-                      {player.full_name}
-                    </div>
-
-                  )
-
-                  )} */}
-                  {players.slice(0, 10).map((player, index) => (
-                    <div
-                      key={index}
-                      className="px-4 py-2 hover:bg-gray-200 cursor-pointer flex items-center border-b"
-                      onClick={() => getPlayerDetails(player.id)}
-                    >
+            {showDropdown && players.length > 0 && (
+              <div className="absolute left-0 w-[74%] max-h-60 overflow-y-auto bg-gray-800 border border-gray-700/50 
+                rounded-b shadow-lg z-50">
+                {players.slice(0, 10).map((player, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center px-4 py-2 border-b border-gray-700/50 hover:bg-gray-700/50 
+                      cursor-pointer transition-colors"
+                    onClick={() => getPlayerDetails(
+                      player.id,
+                      setPlayerDetails,
+                      setSelectedPlayers,
+                      players,
+                      selectedPlayers,
+                      setLoading,
+                      setShowDropdown,
+                      setSearchQuery
+                    )}
+                  >
+                    <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-700/50">
                       <img
                         src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${player.id}.png`}
                         alt={player.full_name}
-                        className="h-10 w-10 object-cover mb-2 rounded mr-2"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.src = 'path/to/fallback/image.png';
+                          e.target.onerror = null;
+                        }}
                       />
-                      <span className="ml-3">{player.full_name}</span>
                     </div>
-                  ))}
-                </div>
-              ))}
-
+                    <span className="ml-3 text-white hover:text-emerald-400">{player.full_name}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
-
 
       <div className="p-4 bg-gray-200 rounded-xl mr-4 h-[95%] mt-0">
       <div className="flex mb-4">
@@ -111,38 +111,45 @@ const SearchDisplay = ({
       </div>
         <div className="grid grid-cols-3 gap-4 h-[90%] overflow-auto">
           {selectedPlayers.map((player, index) => (
-            <div key={index} className="w-full h-fit p-4 bg-white rounded shadow">
+            <div key={index} className="w-full h-fit p-4 bg-gray-800 rounded shadow">
               <div className="mb-2 text-xs">
                 <img
                   src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${player.id}.png`}
                   alt={player.full_name}
                   className="w-full h-32 object-cover mb-2 rounded"
                 />
-
+                {player.status === 'inactive' && (
+                  <div className="text-gray-400 text-sm mt-1">
+                    Not currently in game
+                  </div>
+                )}
               </div>
               <div>
-                <div className={`${getFontSizeClass(player.full_name)} mb-1`}>
-                  <strong>Name: </strong>
+                <div className={`${getFontSizeClass(player.full_name)} mb-1 text-gray-200`}>
+                  <strong className="text-gray-200">Name: </strong>
                   {player.full_name}
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-2 text-sm">
-                <p className="text-xs">
-                  <strong>Rebounds:</strong>{" "}
-                  {player.details?.stat?.reboundsTotal || "0"}
+                <p className="text-xs text-gray-200">
+                  <strong className="text-gray-200">Rebounds:</strong>{" "}
+                  {player.details?.stat?.reboundsTotal || "-"}
                 </p>
-                <p className="text-xs">
-                  <strong>Steals:</strong> {player.details?.stat?.steals || "0"}
+                <p className="text-xs text-gray-200">
+                  <strong className="text-gray-200">Steals:</strong>{" "}
+                  {player.details?.stat?.steals || "-"}
                 </p>
-                <p className="text-xs">
-                  <strong>Points:</strong> {player.details?.stat?.points || "0"}
+                <p className="text-xs text-gray-200">
+                  <strong className="text-gray-200">Points:</strong>{" "}
+                  {player.details?.stat?.points || "-"}
                 </p>
-                <p className="text-xs">
-                  <strong>Assists:</strong>{" "}
-                  {player.details?.stat?.assists || "0"}
+                <p className="text-xs text-gray-200">
+                  <strong className="text-gray-200">Assists:</strong>{" "}
+                  {player.details?.stat?.assists || "-"}
                 </p>
-                <p className="text-xs">
-                  <strong>Blocks:</strong> {player.details?.stat?.blocks || "0"}
+                <p className="text-xs text-gray-200">
+                  <strong className="text-gray-200">Blocks:</strong>{" "}
+                  {player.details?.stat?.blocks || "-"}
                 </p>
               </div>
               <div className="mt-3 text-right">
@@ -154,17 +161,18 @@ const SearchDisplay = ({
                     -
                   </button>
                   <button
-                    className="px-3 py-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-                    onClick={() =>
-                      getUpdatedPlayerData(
-                        player.id,
-                        player.details.gameId,
-                        player.details.homeaway
-                      )
-                    }
-                    disabled={isUpdated}
+                    className="px-3 py-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-700 
+                      focus:outline-none focus:shadow-outline disabled:bg-gray-500"
+                    onClick={() => getUpdatedPlayerData(
+                      player.id,
+                      player.details?.gameId,
+                      player.details?.homeaway,
+                      setIsUpdated
+                    )}
+                    disabled={isUpdated || player.status === 'inactive'}
                   >
-                    {isUpdated ? 'Updated' : 'Update Player Data'}
+                    {player.status === 'inactive' ? 'No Active Game' : 
+                      isUpdated ? 'Updated' : 'Update Player Data'}
                   </button>
                 </div>
               </div>

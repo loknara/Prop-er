@@ -39,39 +39,61 @@ export const getPlayerDetails = async (
   setShowDropdown,
   setSearchQuery
 ) => {
-  setLoading(true);
   try {
-    const response = await axios.post("/playerscore", {
-      player_id: playerId,
-    });
-    setPlayerDetails((prevDetails) => ({
-      ...prevDetails,
-      [playerId]: response.data,
-    }));
-
-    const playerInfo = players.find((player) => player.id === playerId);
-    const playerToAdd = {
-      ...playerInfo,
-      details: response.data,
-    };
-
-    if (!selectedPlayers.some((player) => player.id === playerId)) {
-      setSelectedPlayers((prevSelected) => [...prevSelected, playerToAdd]);
+    setLoading(true);
+    
+    // Check if player is already selected
+    if (selectedPlayers.some(player => player.id === playerId)) {
+      setLoading(false);
+      return;
     }
-    setShowDropdown(false);
 
-    setSearchQuery("")
-  } catch (error) {
-    console.error("Error occurred:", error);
-    const errorMessage =
-      error.response?.data?.message || "Error retrieving player details";
-    setPlayerDetails((prevDetails) => ({
-      ...prevDetails,
-      [playerId]: errorMessage,
-    }));
+    // Find the player from the search results
+    const selectedPlayer = players.find(player => player.id === playerId);
+    
+    try {
+      // Try to get active game data
+      const response = await fetch(`/api/player/${playerId}/game`);
+      const gameData = await response.json();
+      
+      const playerWithDetails = {
+        id: playerId,
+        full_name: selectedPlayer.full_name,
+        details: gameData,
+        status: 'active'
+      };
+      
+      setSelectedPlayers(prevPlayers => [...prevPlayers, playerWithDetails]);
+      
+    } catch (error) {
+      // If no active game, add player with inactive status
+      const playerWithDetails = {
+        id: playerId,
+        full_name: selectedPlayer.full_name,
+        details: {
+          stat: {
+            points: '-',
+            assists: '-',
+            rebounds: '-',
+            steals: '-',
+            blocks: '-'
+          }
+        },
+        status: 'inactive'
+      };
+      
+      setSelectedPlayers(prevPlayers => [...prevPlayers, playerWithDetails]);
+    }
+
+    // Clear search regardless of game status
+    setSearchQuery('');
     setShowDropdown(false);
+    setLoading(false);
+    
+  } catch (error) {
+    console.error('Error in getPlayerDetails:', error);
+    setLoading(false);
   }
-  setLoading(false);
 };
 
 export const removePlayer = (
@@ -149,30 +171,27 @@ export const getUpdatedPlayerData = async (
   playerId,
   gameId,
   homeaway,
-  setPlayerDetails,
-  setSelectedPlayers,
-  selectedPlayers,
   setIsUpdated
 ) => {
-  // Disable the button immediately to prevent multiple clicks
-  setIsUpdated(true);
   try {
-    const data = await fetchPlayerData(playerId, gameId, homeaway);
-
-    if (data) {
-      updatePlayerData(
-        playerId,
-        data,
-        setPlayerDetails,
-        setSelectedPlayers,
-        setIsUpdated
-      );
+    // If no gameId is provided (player is inactive), return early
+    if (!gameId) {
+      console.log('Player is not in an active game');
+      setIsUpdated(true);
+      setTimeout(() => setIsUpdated(false), 2000); // Reset after 2 seconds
+      return;
     }
-  } finally {
-    // After the asynchronous operation (fetching data), re-enable the button after a certain time
-    setTimeout(() => {
-      setIsUpdated(false);
-    }, 1000); // Adjust the duration as needed
+
+    const response = await fetch(`/api/player/${playerId}/game`);
+    const data = await response.json();
+    
+    setIsUpdated(true);
+    setTimeout(() => setIsUpdated(false), 2000); // Reset after 2 seconds
+    
+    return data;
+  } catch (error) {
+    console.error('Error updating player data:', error);
+    setIsUpdated(false);
   }
 };
 
@@ -189,9 +208,6 @@ export const updateAllPlayers = async (selectedPlayers, setIsUpdated, setPlayerD
           player.id,
           gameId,
           homeaway,
-          setPlayerDetails,
-          setSelectedPlayers,
-          selectedPlayers,
           setIsUpdated
         );
       }
