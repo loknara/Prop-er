@@ -1,6 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import SearchDisplay from "./searchDisplay";
-import { handleSearch, getPlayerDetails, getUpdatedPlayerData, handleInputChange, updateAllPlayers } from "./searchBackend";
+import { 
+  handleSearch, 
+  getPlayerDetails, 
+  getUpdatedPlayerData, 
+  handleInputChange, 
+  updateAllPlayers 
+} from "./searchBackend";
 
 const SearchComponent = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -11,50 +17,36 @@ const SearchComponent = () => {
   const [isUpdated, setIsUpdated] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
 
-  // useEffect for periodic updates
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     selectedPlayers.forEach((player) => {
-  //       if (player.details?.gameId && player.details?.homeaway) {
-  //         getUpdatedPlayerData(
-  //           player.id,
-  //           player.details.gameId,
-  //           player.details.homeaway,
-  //           setPlayerDetails,
-  //           setSelectedPlayers,
-  //           selectedPlayers,
-  //           setIsUpdated
-  //         );
-  //       }
-  //     });
-  //   }, 30000); // Update every 15 seconds
-
-  //   return () => clearInterval(interval);
-  // }, [selectedPlayers, setIsUpdated]); // Dependency on selectedPlayers
-
-
   return (
-    <SearchDisplay
-      searchQuery={searchQuery}
-      setSearchQuery={setSearchQuery}
-      players={players}
-      playerDetails={playerDetails}
-      selectedPlayers={selectedPlayers}
-      loading={loading}
-      handleSearch={() => handleSearch(searchQuery, setPlayers, setLoading, setShowDropdown)}
-      getPlayerDetails={(playerId) => getPlayerDetails(playerId, setPlayerDetails, setSelectedPlayers, players, selectedPlayers, setLoading, setShowDropdown, setSearchQuery)}
-      getUpdatedPlayerData={(playerId, gameId, homeaway) => getUpdatedPlayerData(playerId, gameId, homeaway, setPlayerDetails, setSelectedPlayers, selectedPlayers, setIsUpdated)}
-      isUpdated={isUpdated}
-      setIsUpdated={setIsUpdated}
-      showDropdown={showDropdown}
-      setShowDropdown={setShowDropdown}
-      setSelectedPlayers={setSelectedPlayers}
-      setPlayerDetails={setPlayerDetails}
-      setLoading={setLoading}
-      setPlayers={setPlayers}
-      handleInputChange={(e) => handleInputChange(e, setSearchQuery, searchQuery, players, setPlayers, setLoading, setShowDropdown)}
-      updateAllPlayers={() => updateAllPlayers(selectedPlayers, setIsUpdated, setPlayerDetails, setSelectedPlayers)}
-    />
+    <div className="h-full bg-gray-800/50 rounded-2xl shadow-xl border border-gray-700/50">
+      <div className="p-6 border-b border-gray-700/50">
+        <h2 className="text-2xl font-bold">
+          <span className="text-white">Search </span>
+          <span className="text-emerald-400">Players</span>
+        </h2>
+      </div>
+      <SearchDisplay
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        players={players}
+        playerDetails={playerDetails}
+        selectedPlayers={selectedPlayers}
+        loading={loading}
+        handleSearch={() => handleSearch(searchQuery, setPlayers, setLoading, setShowDropdown)}
+        getPlayerDetails={getPlayerDetails}
+        getUpdatedPlayerData={getUpdatedPlayerData}
+        isUpdated={isUpdated}
+        setIsUpdated={setIsUpdated}
+        showDropdown={showDropdown}
+        setShowDropdown={setShowDropdown}
+        setSelectedPlayers={setSelectedPlayers}
+        setPlayerDetails={setPlayerDetails}
+        setLoading={setLoading}
+        setPlayers={setPlayers}
+        handleInputChange={handleInputChange}
+        updateAllPlayers={updateAllPlayers}
+      />
+    </div>
   );
 };
 
